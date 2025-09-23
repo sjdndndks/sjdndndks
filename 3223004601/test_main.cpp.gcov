@@ -1,0 +1,2520 @@
+        -:    0:Source:d:/code/c/test_main.cpp
+        -:    0:Graph:d:\code\c\test_main.gcno
+        -:    0:Data:d:\code\c\test_main.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include <fstream>
+        -:    3:#include <vector>
+        -:    4:#include <string>
+        -:    5:#include <algorithm>
+        -:    6:#include <unordered_set>
+        -:    7:#include <cstdint>
+        -:    8:#include <cstring>
+        -:    9:#include <iomanip>
+        -:   10:#include <memory>
+        -:   11:#include <stdexcept>
+        -:   12:#include <cassert>
+        -:   13:#include <sstream>
+        -:   14:#include <chrono>
+        -:   15:
+        -:   16:// 测试框架宏定义
+        -:   17:#define ASSERT_EQ(expected, actual) \
+        -:   18:    do { \
+        -:   19:        if ((expected) != (actual)) { \
+        -:   20:            std::cerr << "Assertion failed: " << #expected << " == " << #actual \
+        -:   21:                      << " (expected: " << (expected) << ", actual: " << (actual) << ")" \
+        -:   22:                      << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
+        -:   23:            return false; \
+        -:   24:        } \
+        -:   25:    } while(0)
+        -:   26:
+        -:   27:#define ASSERT_TRUE(condition) \
+        -:   28:    do { \
+        -:   29:        if (!(condition)) { \
+        -:   30:            std::cerr << "Assertion failed: " << #condition \
+        -:   31:                      << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
+        -:   32:            return false; \
+        -:   33:        } \
+        -:   34:    } while(0)
+        -:   35:
+        -:   36:#define ASSERT_FALSE(condition) \
+        -:   37:    do { \
+        -:   38:        if (condition) { \
+        -:   39:            std::cerr << "Assertion failed: " << #condition \
+        -:   40:                      << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
+        -:   41:            return false; \
+        -:   42:        } \
+        -:   43:    } while(0)
+        -:   44:
+        -:   45:#define ASSERT_NEAR(expected, actual, tolerance) \
+        -:   46:    do { \
+        -:   47:        double diff = std::abs((expected) - (actual)); \
+        -:   48:        if (diff > (tolerance)) { \
+        -:   49:            std::cerr << "Assertion failed: " << #expected << " near " << #actual \
+        -:   50:                      << " (expected: " << (expected) << ", actual: " << (actual) \
+        -:   51:                      << ", diff: " << diff << ", tolerance: " << (tolerance) << ")" \
+        -:   52:                      << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
+        -:   53:            return false; \
+        -:   54:        } \
+        -:   55:    } while(0)
+        -:   56:
+        -:   57:// 测试用例基类
+        -:   58:class TestCase {
+        -:   59:public:
+function _ZN8TestCaseD2Ev called 10 returned 100% blocks executed 100%
+       10:   60:    virtual ~TestCase() = default;
+        -:   61:    virtual bool run() = 0;
+        -:   62:    virtual std::string getName() const = 0;
+        -:   63:};
+        -:   64:
+        -:   65:// 测试运行器
+        -:   66:class TestRunner {
+        -:   67:private:
+        -:   68:    std::vector<std::unique_ptr<TestCase>> tests;
+        -:   69:    int passed = 0;
+        -:   70:    int failed = 0;
+        -:   71:
+        -:   72:public:
+function _ZN10TestRunner7addTestESt10unique_ptrI8TestCaseSt14default_deleteIS1_EE called 10 returned 100% blocks executed 100%
+       10:   73:    void addTest(std::unique_ptr<TestCase> test) {
+       10:   74:        tests.push_back(std::move(test));
+call    0 returned 100%
+call    1 returned 100%
+       10:   75:    }
+        -:   76:
+function _ZN10TestRunner6runAllEv called 1 returned 100% blocks executed 65%
+        1:   77:    bool runAll() {
+        1:   78:        std::cout << "Running " << tests.size() << " tests..." << std::endl;
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+        -:   79:        
+       11:   80:        for (auto& test : tests) {
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 91%
+branch  6 taken 9% (fallthrough)
+       10:   81:            std::cout << "Running " << test->getName() << "... ";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+branch  8 taken 100% (fallthrough)
+branch  9 taken 0% (throw)
+call   10 returned 100%
+branch 11 taken 100% (fallthrough)
+branch 12 taken 0% (throw)
+call   13 returned 100%
+call   14 never executed
+        -:   82:            try {
+       10:   83:                if (test->run()) {
+call    0 returned 100%
+call    1 returned 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0% (throw)
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+       10:   84:                    std::cout << "PASSED" << std::endl;
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0% (throw)
+       10:   85:                    passed++;
+        -:   86:                } else {
+    #####:   87:                    std::cout << "FAILED" << std::endl;
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    #####:   88:                    failed++;
+        -:   89:                }
+    =====:   90:            } catch (const std::exception& e) {
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+    =====:   91:                std::cout << "FAILED (exception: " << e.what() << ")" << std::endl;
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+call    3 never executed
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+call    7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed (throw)
+call   10 never executed
+branch 11 never executed (fallthrough)
+branch 12 never executed (throw)
+    =====:   92:                failed++;
+    =====:   93:            }
+call    0 never executed
+call    1 never executed
+        -:   94:        }
+        -:   95:        
+        1:   96:        std::cout << "\nTest Results: " << passed << " passed, " << failed << " failed" << std::endl;
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+call    5 returned 100%
+        1:   97:        return failed == 0;
+        -:   98:    }
+        -:   99:};
+        -:  100:
+        -:  101:// 包含主程序的核心函数（复制过来用于测试）
+function _Z6is_cjkj called 5017 returned 100% blocks executed 74%
+     5017:  102:bool is_cjk(uint32_t cp) {
+     5017:  103:    if ((cp >= 0x4E00 && cp <= 0x9FFF) ||
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+branch  2 taken 20% (fallthrough)
+branch  3 taken 80%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 1%
+     1005:  104:        (cp >= 0x3400 && cp <= 0x4DBF) ||
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 1%
+     1005:  105:        (cp >= 0xF900 && cp <= 0xFAFF) ||
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    1005*:  106:        (cp >= 0x20000 && cp <= 0x2A6DF) ||
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    1005*:  107:        (cp >= 0x2A700 && cp <= 0x2B73F) ||
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    1005*:  108:        (cp >= 0x2B740 && cp <= 0x2B81F) ||
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    1005*:  109:        (cp >= 0x2B820 && cp <= 0x2CEAF) ||
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    4012*:  110:        (cp >= 0x2CEB0 && cp <= 0x2EBEF)) return true;
+branch  0 never executed (fallthrough)
+branch  1 never executed
+     1005:  111:    return false;
+        -:  112:}
+        -:  113:
+function _Z13is_keep_asciic called 13066 returned 100% blocks executed 100%
+    13066:  114:bool is_keep_ascii(char c) {
+    13066:  115:    if (c >= 'A' && c <= 'Z') return true;
+branch  0 taken 77% (fallthrough)
+branch  1 taken 23%
+branch  2 taken 20% (fallthrough)
+branch  3 taken 80%
+    11061:  116:    if (c >= 'a' && c <= 'z') return true;
+branch  0 taken 73% (fallthrough)
+branch  1 taken 27%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+     3034:  117:    if (c >= '0' && c <= '9') return true;
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+branch  2 taken 71% (fallthrough)
+branch  3 taken 29%
+     3029:  118:    return false;
+        -:  119:}
+        -:  120:
+function _Z14to_lower_asciic called 10037 returned 100% blocks executed 100%
+    10037:  121:char to_lower_ascii(char c) {
+    10037:  122:    if (c >= 'A' && c <= 'Z') return c - 'A' + 'a';
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+branch  2 taken 20% (fallthrough)
+branch  3 taken 80%
+     8031:  123:    return c;
+        -:  124:}
+        -:  125:
+function _Z9utf8_nextRKSt6vectorIhSaIhEERy called 18076 returned 100% blocks executed 65%
+    18076:  126:uint32_t utf8_next(const std::vector<unsigned char>& bytes, size_t& i) {
+    18076:  127:    if (i >= bytes.size()) return 0;
+call    0 returned 100%
+branch  1 taken 1% (fallthrough)
+branch  2 taken 100%
+    18074:  128:    unsigned char b0 = bytes[i];
+call    0 returned 100%
+        -:  129:    
+    18074:  130:    if (b0 < 0x80) {
+branch  0 taken 72% (fallthrough)
+branch  1 taken 28%
+    13063:  131:        i++;
+    13063:  132:        return b0;
+        -:  133:    }
+        -:  134:    
+     5011:  135:    int seqlen = 0;
+     5011:  136:    uint32_t cp = 0;
+    5011*:  137:    if ((b0 & 0xE0) == 0xC0) { seqlen = 2; cp = b0 & 0x1F; }
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+     5011:  138:    else if ((b0 & 0xF0) == 0xE0) { seqlen = 3; cp = b0 & 0x0F; }
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+    #####:  139:    else if ((b0 & 0xF8) == 0xF0) { seqlen = 4; cp = b0 & 0x07; }
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  140:    else { i++; return 0; }
+        -:  141:    
+    5011*:  142:    if (i + seqlen > bytes.size()) { i = bytes.size(); return 0; }
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+        -:  143:    
+    15033:  144:    for (int k = 1; k < seqlen; ++k) {
+branch  0 taken 67%
+branch  1 taken 33% (fallthrough)
+    10022:  145:        unsigned char bx = bytes[i + k];
+call    0 returned 100%
+   10022*:  146:        if ((bx & 0xC0) != 0x80) { i++; return 0; }
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    10022:  147:        cp = (cp << 6) | (uint32_t)(bx & 0x3F);
+        -:  148:    }
+        -:  149:    
+    5011*:  150:    if (seqlen == 2 && cp < 0x80) { i++; return 0; }
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
+    5011*:  151:    if (seqlen == 3 && cp < 0x800) { i++; return 0; }
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+    5011*:  152:    if (seqlen == 4 && cp < 0x10000) { i++; return 0; }
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
+        -:  153:    
+    5011*:  154:    if (cp >= 0xD800 && cp <= 0xDFFF) { i++; return 0; }
+branch  0 taken 20% (fallthrough)
+branch  1 taken 80%
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+        -:  155:    
+     5011:  156:    i += seqlen;
+     5011:  157:    return cp;
+        -:  158:}
+        -:  159:
+function _Z23normalize_to_codepointsRKSt6vectorIhSaIhEE called 7 returned 100% blocks executed 78%
+        7:  160:std::vector<uint32_t> normalize_to_codepoints(const std::vector<unsigned char>& bytes) {
+        7:  161:    std::vector<uint32_t> codepoints;
+call    0 returned 100%
+        7:  162:    size_t i = 0;
+        -:  163:    
+    18074:  164:    while (i < bytes.size()) {
+call    0 returned 100%
+branch  1 taken 100%
+branch  2 taken 1% (fallthrough)
+    18067:  165:        uint32_t cp = utf8_next(bytes, i);
+call    0 returned 100%
+   18067*:  166:        if (cp == 0) continue;
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  167:        
+    18067:  168:        if (cp < 128) {
+branch  0 taken 72% (fallthrough)
+branch  1 taken 28%
+    13058:  169:            if (is_keep_ascii(static_cast<char>(cp))) {
+call    0 returned 100%
+branch  1 taken 77% (fallthrough)
+branch  2 taken 23%
+    10033:  170:                cp = to_lower_ascii(static_cast<char>(cp));
+call    0 returned 100%
+    10033:  171:                codepoints.push_back(cp);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  172:            }
+        -:  173:        } else {
+     5009:  174:            if (is_cjk(cp)) {
+call    0 returned 100%
+branch  1 taken 80% (fallthrough)
+branch  2 taken 20%
+     4008:  175:                codepoints.push_back(cp);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  176:            }
+        -:  177:        }
+        -:  178:    }
+        -:  179:    
+        7:  180:    return codepoints;
+    =====:  181:}
+call    0 never executed
+        -:  182:
+function _Z18fnv1a64_hash_kgramRKSt6vectorIjSaIjEEyy called 30 returned 100% blocks executed 100%
+       30:  183:uint64_t fnv1a64_hash_kgram(const std::vector<uint32_t>& codepoints, size_t start, size_t k) {
+       30:  184:    const uint64_t FNV_OFFSET = 1469598103934665603ULL;
+       30:  185:    const uint64_t FNV_PRIME = 1099511628211ULL;
+       30:  186:    uint64_t h = FNV_OFFSET;
+        -:  187:    
+      120:  188:    for (size_t i = 0; i < k; ++i) {
+branch  0 taken 75%
+branch  1 taken 25% (fallthrough)
+       90:  189:        uint32_t cp = codepoints[start + i];
+call    0 returned 100%
+      450:  190:        for (int b = 0; b < 4; ++b) {
+branch  0 taken 80%
+branch  1 taken 20% (fallthrough)
+      360:  191:            unsigned char x = static_cast<unsigned char>((cp >> (b * 8)) & 0xFFu);
+      360:  192:            h ^= static_cast<uint64_t>(x);
+      360:  193:            h *= FNV_PRIME;
+        -:  194:        }
+        -:  195:    }
+       30:  196:    return h;
+        -:  197:}
+        -:  198:
+function _Z15build_kgram_setRKSt6vectorIjSaIjEEy called 5 returned 100% blocks executed 85%
+        5:  199:std::unordered_set<uint64_t> build_kgram_set(const std::vector<uint32_t>& codepoints, size_t k) {
+        5:  200:    std::unordered_set<uint64_t> hash_set;
+call    0 returned 100%
+        5:  201:    if (k == 0 || codepoints.size() < k) return hash_set;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 returned 100%
+branch  3 taken 40% (fallthrough)
+branch  4 taken 60%
+branch  5 taken 40% (fallthrough)
+branch  6 taken 60%
+        -:  202:    
+        3:  203:    size_t num = codepoints.size() - k + 1;
+call    0 returned 100%
+        -:  204:    
+       30:  205:    for (size_t i = 0; i < num; ++i) {
+branch  0 taken 90%
+branch  1 taken 10% (fallthrough)
+       27:  206:        uint64_t hash = fnv1a64_hash_kgram(codepoints, i, k);
+call    0 returned 100%
+       27:  207:        hash_set.insert(hash);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  208:    }
+        -:  209:    
+        3:  210:    return hash_set;
+    =====:  211:}
+call    0 never executed
+        -:  212:
+function _Z18jaccard_similarityRKSt13unordered_setIySt4hashIyESt8equal_toIyESaIyEES7_ called 5 returned 100% blocks executed 89%
+        5:  213:double jaccard_similarity(const std::unordered_set<uint64_t>& set1, const std::unordered_set<uint64_t>& set2) {
+        5:  214:    if (set1.empty() && set2.empty()) return 0.0;
+call    0 returned 100%
+branch  1 taken 20% (fallthrough)
+branch  2 taken 80%
+call    3 returned 100%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 20% (fallthrough)
+branch  7 taken 80%
+        -:  215:    
+        4:  216:    size_t intersection = 0;
+       28:  217:    for (const auto& hash : set1) {
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 86%
+branch  6 taken 14% (fallthrough)
+       24:  218:        if (set2.find(hash) != set2.end()) {
+call    0 returned 100%
+call    1 returned 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0% (throw)
+call    4 returned 100%
+branch  5 taken 79% (fallthrough)
+branch  6 taken 21%
+       19:  219:            intersection++;
+        -:  220:        }
+        -:  221:    }
+        -:  222:    
+        4:  223:    size_t union_size = set1.size() + set2.size() - intersection;
+call    0 returned 100%
+call    1 returned 100%
+       4*:  224:    if (union_size == 0) return 0.0;
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  225:    
+        4:  226:    return static_cast<double>(intersection) / static_cast<double>(union_size);
+        -:  227:}
+        -:  228:
+        -:  229:// 测试用例1：CJK字符识别
+        -:  230:class TestCJKRecognition : public TestCase {
+        -:  231:public:
+function _ZNK18TestCJKRecognition7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  232:    std::string getName() const override { return "CJK字符识别测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  233:    
+function _ZN18TestCJKRecognition3runEv called 1 returned 100% blocks executed 22%
+        1:  234:    bool run() override {
+        -:  235:        // 测试中文字符
+       1*:  236:        ASSERT_TRUE(is_cjk(0x4E00)); // 一
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  237:        ASSERT_TRUE(is_cjk(0x9FFF)); // 最后一个CJK字符
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  238:        ASSERT_TRUE(is_cjk(0x6C49)); // 汉
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  239:        ASSERT_TRUE(is_cjk(0x5B57)); // 字
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+        -:  240:        
+        -:  241:        // 测试非CJK字符
+       1*:  242:        ASSERT_FALSE(is_cjk(0x0041)); // A
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  243:        ASSERT_FALSE(is_cjk(0x0061)); // a
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  244:        ASSERT_FALSE(is_cjk(0x0030)); // 0
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  245:        ASSERT_FALSE(is_cjk(0x0020)); // 空格
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+        -:  246:        
+        1:  247:        return true;
+        -:  248:    }
+        -:  249:};
+        -:  250:
+        -:  251:// 测试用例2：ASCII字符处理
+        -:  252:class TestASCIIProcessing : public TestCase {
+        -:  253:public:
+function _ZNK19TestASCIIProcessing7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  254:    std::string getName() const override { return "ASCII字符处理测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  255:    
+function _ZN19TestASCIIProcessing3runEv called 1 returned 100% blocks executed 17%
+        1:  256:    bool run() override {
+        -:  257:        // 测试保留字符
+       1*:  258:        ASSERT_TRUE(is_keep_ascii('A'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  259:        ASSERT_TRUE(is_keep_ascii('z'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  260:        ASSERT_TRUE(is_keep_ascii('0'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  261:        ASSERT_TRUE(is_keep_ascii('9'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+        -:  262:        
+        -:  263:        // 测试不保留字符
+       1*:  264:        ASSERT_FALSE(is_keep_ascii(' '));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  265:        ASSERT_FALSE(is_keep_ascii('.'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  266:        ASSERT_FALSE(is_keep_ascii(','));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+       1*:  267:        ASSERT_FALSE(is_keep_ascii('!'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+        -:  268:        
+        -:  269:        // 测试大小写转换
+       1*:  270:        ASSERT_EQ('a', to_lower_ascii('A'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+call   16 never executed
+call   17 never executed
+       1*:  271:        ASSERT_EQ('z', to_lower_ascii('Z'));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+call   16 never executed
+call   17 never executed
+       1*:  272:        ASSERT_EQ('a', to_lower_ascii('a')); // 已经小写
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+call   16 never executed
+call   17 never executed
+       1*:  273:        ASSERT_EQ('0', to_lower_ascii('0')); // 数字不变
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+call   16 never executed
+call   17 never executed
+        -:  274:        
+        1:  275:        return true;
+        -:  276:    }
+        -:  277:};
+        -:  278:
+        -:  279:// 测试用例3：UTF-8解码
+        -:  280:class TestUTF8Decoding : public TestCase {
+        -:  281:public:
+function _ZNK16TestUTF8Decoding7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  282:    std::string getName() const override { return "UTF-8解码测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  283:    
+function _ZN16TestUTF8Decoding3runEv called 1 returned 100% blocks executed 19%
+        1:  284:    bool run() override {
+        -:  285:        // 测试ASCII字符
+        2:  286:        std::vector<unsigned char> ascii_bytes = {'H', 'e', 'l', 'l', 'o'};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  287:        size_t i = 0;
+       1*:  288:        ASSERT_EQ('H', utf8_next(ascii_bytes, i));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+       1*:  289:        ASSERT_EQ('e', utf8_next(ascii_bytes, i));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+       1*:  290:        ASSERT_EQ('l', utf8_next(ascii_bytes, i));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+       1*:  291:        ASSERT_EQ('l', utf8_next(ascii_bytes, i));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+       1*:  292:        ASSERT_EQ('o', utf8_next(ascii_bytes, i));
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+       1*:  293:        ASSERT_EQ(0, utf8_next(ascii_bytes, i)); // 超出范围
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  294:        
+        -:  295:        // 测试中文字符 "你好"
+        2:  296:        std::vector<unsigned char> chinese_bytes = {0xE4, 0xBD, 0xA0, 0xE5, 0xA5, 0xBD};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  297:        i = 0;
+        1:  298:        uint32_t cp1 = utf8_next(chinese_bytes, i);
+call    0 returned 100%
+        1:  299:        uint32_t cp2 = utf8_next(chinese_bytes, i);
+call    0 returned 100%
+       1*:  300:        ASSERT_TRUE(cp1 > 0); // 应该成功解码
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+       1*:  301:        ASSERT_TRUE(cp2 > 0); // 应该成功解码
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+       1*:  302:        ASSERT_EQ(0, utf8_next(chinese_bytes, i)); // 超出范围
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  303:        
+        1:  304:        return true;
+        1:  305:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 never executed
+call    3 never executed
+        -:  306:};
+        -:  307:
+        -:  308:// 测试用例4：文本归一化
+        -:  309:class TestTextNormalization : public TestCase {
+        -:  310:public:
+function _ZNK21TestTextNormalization7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  311:    std::string getName() const override { return "文本归一化测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  312:    
+function _ZN21TestTextNormalization3runEv called 1 returned 100% blocks executed 39%
+        1:  313:    bool run() override {
+        -:  314:        // 测试ASCII文本归一化
+        2:  315:        std::string ascii_text = "Hello World! 123";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  316:        std::vector<unsigned char> ascii_bytes(ascii_text.begin(), ascii_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        1:  317:        std::vector<uint32_t> codepoints = normalize_to_codepoints(ascii_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  318:        
+        -:  319:        // 应该只保留字母和数字，转换为小写
+        2:  320:        std::vector<uint32_t> expected = {'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd', '1', '2', '3'};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  321:        ASSERT_EQ(expected.size(), codepoints.size());
+call    0 returned 100%
+call    1 returned 100%
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+call    7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed (throw)
+call   10 never executed
+branch 11 never executed (fallthrough)
+branch 12 never executed (throw)
+call   13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed (throw)
+call   16 never executed
+branch 17 never executed (fallthrough)
+branch 18 never executed (throw)
+call   19 never executed
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+call   23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed (throw)
+call   26 never executed
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+       14:  322:        for (size_t i = 0; i < expected.size(); ++i) {
+call    0 returned 100%
+branch  1 taken 93%
+branch  2 taken 7% (fallthrough)
+      13*:  323:            ASSERT_EQ(expected[i], codepoints[i]);
+call    0 returned 100%
+call    1 returned 100%
+branch  2 taken 0% (fallthrough)
+branch  3 taken 100%
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+call    7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed (throw)
+call   10 never executed
+branch 11 never executed (fallthrough)
+branch 12 never executed (throw)
+call   13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed (throw)
+call   16 never executed
+branch 17 never executed (fallthrough)
+branch 18 never executed (throw)
+call   19 never executed
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+call   23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed (throw)
+call   26 never executed
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+        -:  324:        }
+        -:  325:        
+        1:  326:        return true;
+        1:  327:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 never executed
+call    5 never executed
+call    6 never executed
+call    7 never executed
+        -:  328:};
+        -:  329:
+        -:  330:// 测试用例5：哈希函数
+        -:  331:class TestHashFunction : public TestCase {
+        -:  332:public:
+function _ZNK16TestHashFunction7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  333:    std::string getName() const override { return "哈希函数测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  334:    
+function _ZN16TestHashFunction3runEv called 1 returned 100% blocks executed 33%
+        1:  335:    bool run() override {
+        2:  336:        std::vector<uint32_t> codepoints = {'h', 'e', 'l', 'l', 'o'};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  337:        
+        -:  338:        // 测试相同输入产生相同哈希
+        1:  339:        uint64_t hash1 = fnv1a64_hash_kgram(codepoints, 0, 3);
+call    0 returned 100%
+        1:  340:        uint64_t hash2 = fnv1a64_hash_kgram(codepoints, 0, 3);
+call    0 returned 100%
+       1*:  341:        ASSERT_EQ(hash1, hash2);
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+call   23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed (throw)
+call   26 never executed
+branch 27 never executed (fallthrough)
+branch 28 never executed (throw)
+call   29 never executed
+branch 30 never executed (fallthrough)
+branch 31 never executed (throw)
+call   32 never executed
+branch 33 never executed (fallthrough)
+branch 34 never executed (throw)
+call   35 never executed
+branch 36 never executed (fallthrough)
+branch 37 never executed (throw)
+call   38 never executed
+branch 39 never executed (fallthrough)
+branch 40 never executed (throw)
+call   41 never executed
+branch 42 never executed (fallthrough)
+branch 43 never executed (throw)
+        -:  342:        
+        -:  343:        // 测试不同输入产生不同哈希
+        1:  344:        uint64_t hash3 = fnv1a64_hash_kgram(codepoints, 1, 3);
+call    0 returned 100%
+       1*:  345:        ASSERT_TRUE(hash1 != hash3);
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+        -:  346:        
+        1:  347:        return true;
+        1:  348:    }
+call    0 returned 100%
+call    1 never executed
+        -:  349:};
+        -:  350:
+        -:  351:// 测试用例6：k-gram集合构建
+        -:  352:class TestKGramSet : public TestCase {
+        -:  353:public:
+function _ZNK12TestKGramSet7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  354:    std::string getName() const override { return "k-gram集合构建测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  355:    
+function _ZN12TestKGramSet3runEv called 1 returned 100% blocks executed 27%
+        1:  356:    bool run() override {
+        2:  357:        std::vector<uint32_t> codepoints = {'a', 'b', 'c', 'd', 'e'};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  358:        
+        -:  359:        // 测试3-gram
+        1:  360:        std::unordered_set<uint64_t> kgram_set = build_kgram_set(codepoints, 3);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  361:        ASSERT_EQ(3, kgram_set.size()); // 应该有3个3-gram: abc, bcd, cde
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  362:        
+        -:  363:        // 测试空输入
+        1:  364:        std::vector<uint32_t> empty_codepoints;
+call    0 returned 100%
+        1:  365:        std::unordered_set<uint64_t> empty_set = build_kgram_set(empty_codepoints, 3);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  366:        ASSERT_EQ(0, empty_set.size());
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  367:        
+        -:  368:        // 测试k大于输入长度
+        1:  369:        std::unordered_set<uint64_t> too_large_set = build_kgram_set(codepoints, 10);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  370:        ASSERT_EQ(0, too_large_set.size());
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  371:        
+        1:  372:        return true;
+        1:  373:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+call    5 never executed
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+        -:  374:};
+        -:  375:
+        -:  376:// 测试用例7：Jaccard相似度计算
+        -:  377:class TestJaccardSimilarity : public TestCase {
+        -:  378:public:
+function _ZNK21TestJaccardSimilarity7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  379:    std::string getName() const override { return "Jaccard相似度计算测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  380:    
+function _ZN21TestJaccardSimilarity3runEv called 1 returned 100% blocks executed 29%
+        1:  381:    bool run() override {
+        -:  382:        // 测试完全相同的集合
+        2:  383:        std::unordered_set<uint64_t> set1 = {1, 2, 3, 4, 5};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        2:  384:        std::unordered_set<uint64_t> set2 = {1, 2, 3, 4, 5};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  385:        double sim1 = jaccard_similarity(set1, set2);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  386:        ASSERT_NEAR(1.0, sim1, 0.001);
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+branch 25 never executed (fallthrough)
+branch 26 never executed (throw)
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+call   48 never executed
+branch 49 never executed (fallthrough)
+branch 50 never executed (throw)
+call   51 never executed
+branch 52 never executed (fallthrough)
+branch 53 never executed (throw)
+call   54 never executed
+branch 55 never executed (fallthrough)
+branch 56 never executed (throw)
+        -:  387:        
+        -:  388:        // 测试完全不同的集合
+        2:  389:        std::unordered_set<uint64_t> set3 = {1, 2, 3};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        2:  390:        std::unordered_set<uint64_t> set4 = {4, 5, 6};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  391:        double sim2 = jaccard_similarity(set3, set4);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  392:        ASSERT_NEAR(0.0, sim2, 0.001);
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+branch 25 never executed (fallthrough)
+branch 26 never executed (throw)
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+call   48 never executed
+branch 49 never executed (fallthrough)
+branch 50 never executed (throw)
+call   51 never executed
+branch 52 never executed (fallthrough)
+branch 53 never executed (throw)
+call   54 never executed
+branch 55 never executed (fallthrough)
+branch 56 never executed (throw)
+        -:  393:        
+        -:  394:        // 测试部分重叠的集合
+        2:  395:        std::unordered_set<uint64_t> set5 = {1, 2, 3, 4};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        2:  396:        std::unordered_set<uint64_t> set6 = {3, 4, 5, 6};
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  397:        double sim3 = jaccard_similarity(set5, set6);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  398:        ASSERT_NEAR(0.333, sim3, 0.01); // 交集2个，并集6个，相似度2/6=0.333
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+branch 25 never executed (fallthrough)
+branch 26 never executed (throw)
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+call   48 never executed
+branch 49 never executed (fallthrough)
+branch 50 never executed (throw)
+call   51 never executed
+branch 52 never executed (fallthrough)
+branch 53 never executed (throw)
+call   54 never executed
+branch 55 never executed (fallthrough)
+branch 56 never executed (throw)
+        -:  399:        
+        -:  400:        // 测试空集合
+        1:  401:        std::unordered_set<uint64_t> empty_set;
+call    0 returned 100%
+        1:  402:        double sim4 = jaccard_similarity(empty_set, empty_set);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  403:        ASSERT_NEAR(0.0, sim4, 0.001);
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+branch 25 never executed (fallthrough)
+branch 26 never executed (throw)
+call   27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed (throw)
+call   30 never executed
+branch 31 never executed (fallthrough)
+branch 32 never executed (throw)
+call   33 never executed
+branch 34 never executed (fallthrough)
+branch 35 never executed (throw)
+call   36 never executed
+branch 37 never executed (fallthrough)
+branch 38 never executed (throw)
+call   39 never executed
+branch 40 never executed (fallthrough)
+branch 41 never executed (throw)
+call   42 never executed
+branch 43 never executed (fallthrough)
+branch 44 never executed (throw)
+call   45 never executed
+branch 46 never executed (fallthrough)
+branch 47 never executed (throw)
+call   48 never executed
+branch 49 never executed (fallthrough)
+branch 50 never executed (throw)
+call   51 never executed
+branch 52 never executed (fallthrough)
+branch 53 never executed (throw)
+call   54 never executed
+branch 55 never executed (fallthrough)
+branch 56 never executed (throw)
+        -:  404:        
+        1:  405:        return true;
+        1:  406:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+call    5 returned 100%
+call    6 returned 100%
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+        -:  407:};
+        -:  408:
+        -:  409:// 测试用例8：端到端测试
+        -:  410:class TestEndToEnd : public TestCase {
+        -:  411:public:
+function _ZNK12TestEndToEnd7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  412:    std::string getName() const override { return "端到端测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  413:    
+function _ZN12TestEndToEnd3runEv called 1 returned 100% blocks executed 47%
+        1:  414:    bool run() override {
+        -:  415:        // 创建测试文件
+        2:  416:        std::string orig_text = "Hello World! 你好世界！";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        2:  417:        std::string plag_text = "hello world 你好世界";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  418:        
+        -:  419:        // 转换为字节向量
+        2:  420:        std::vector<unsigned char> orig_bytes(orig_text.begin(), orig_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        1:  421:        std::vector<unsigned char> plag_bytes(plag_text.begin(), plag_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        -:  422:        
+        -:  423:        // 归一化
+        1:  424:        std::vector<uint32_t> orig_codepoints = normalize_to_codepoints(orig_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  425:        std::vector<uint32_t> plag_codepoints = normalize_to_codepoints(plag_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  426:        
+        -:  427:        // 构建k-gram集合
+        1:  428:        std::unordered_set<uint64_t> orig_set = build_kgram_set(orig_codepoints, 3);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  429:        std::unordered_set<uint64_t> plag_set = build_kgram_set(plag_codepoints, 3);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  430:        
+        -:  431:        // 计算相似度
+        1:  432:        double similarity = jaccard_similarity(orig_set, plag_set);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  433:        
+        -:  434:        // 相似度应该在合理范围内
+       1*:  435:        ASSERT_TRUE(similarity >= 0.0);
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+       1*:  436:        ASSERT_TRUE(similarity <= 1.0);
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+call    5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed (throw)
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+call   11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed (throw)
+call   14 never executed
+branch 15 never executed (fallthrough)
+branch 16 never executed (throw)
+call   17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed (throw)
+call   20 never executed
+branch 21 never executed (fallthrough)
+branch 22 never executed (throw)
+        -:  437:        
+        1:  438:        return true;
+        1:  439:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+call    5 returned 100%
+call    6 returned 100%
+call    7 returned 100%
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+        -:  440:};
+        -:  441:
+        -:  442:// 测试用例9：边界条件测试
+        -:  443:class TestBoundaryConditions : public TestCase {
+        -:  444:public:
+function _ZNK22TestBoundaryConditions7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  445:    std::string getName() const override { return "边界条件测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  446:    
+function _ZN22TestBoundaryConditions3runEv called 1 returned 100% blocks executed 36%
+        1:  447:    bool run() override {
+        -:  448:        // 测试空文件
+        1:  449:        std::vector<unsigned char> empty_bytes;
+call    0 returned 100%
+        1:  450:        std::vector<uint32_t> empty_codepoints = normalize_to_codepoints(empty_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  451:        ASSERT_EQ(0, empty_codepoints.size());
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  452:        
+        -:  453:        // 测试只有标点符号
+        2:  454:        std::string punct_text = "!@#$%^&*()";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  455:        std::vector<unsigned char> punct_bytes(punct_text.begin(), punct_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        1:  456:        std::vector<uint32_t> punct_codepoints = normalize_to_codepoints(punct_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  457:        ASSERT_EQ(0, punct_codepoints.size());
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  458:        
+        -:  459:        // 测试只有空格
+        2:  460:        std::string space_text = "   \t\n  ";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  461:        std::vector<unsigned char> space_bytes(space_text.begin(), space_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        1:  462:        std::vector<uint32_t> space_codepoints = normalize_to_codepoints(space_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+       1*:  463:        ASSERT_EQ(0, space_codepoints.size());
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+call   24 never executed
+call   25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed (throw)
+call   28 never executed
+branch 29 never executed (fallthrough)
+branch 30 never executed (throw)
+call   31 never executed
+branch 32 never executed (fallthrough)
+branch 33 never executed (throw)
+call   34 never executed
+branch 35 never executed (fallthrough)
+branch 36 never executed (throw)
+call   37 never executed
+branch 38 never executed (fallthrough)
+branch 39 never executed (throw)
+call   40 never executed
+branch 41 never executed (fallthrough)
+branch 42 never executed (throw)
+call   43 never executed
+branch 44 never executed (fallthrough)
+branch 45 never executed (throw)
+        -:  464:        
+        1:  465:        return true;
+        1:  466:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
+call    5 returned 100%
+call    6 returned 100%
+call    7 returned 100%
+call    8 never executed
+call    9 never executed
+call   10 never executed
+call   11 never executed
+call   12 never executed
+call   13 never executed
+call   14 never executed
+call   15 never executed
+        -:  467:};
+        -:  468:
+        -:  469:// 测试用例10：性能测试
+        -:  470:class TestPerformance : public TestCase {
+        -:  471:public:
+function _ZNK15TestPerformance7getNameB5cxx11Ev called 1 returned 100% blocks executed 78%
+        3:  472:    std::string getName() const override { return "性能测试"; }
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  473:    
+function _ZN15TestPerformance3runEv called 1 returned 100% blocks executed 51%
+        1:  474:    bool run() override {
+        -:  475:        // 创建较大的测试数据
+        1:  476:        std::string large_text;
+call    0 returned 100%
+     1001:  477:        for (int i = 0; i < 1000; ++i) {
+branch  0 taken 100%
+branch  1 taken 1% (fallthrough)
+     1000:  478:            large_text += "Hello World! 你好世界！";
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  479:        }
+        -:  480:        
+        1:  481:        std::vector<unsigned char> large_bytes(large_text.begin(), large_text.end());
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0% (throw)
+        -:  482:        
+        -:  483:        // 测试归一化性能
+        1:  484:        auto start = std::chrono::high_resolution_clock::now();
+call    0 returned 100%
+        1:  485:        std::vector<uint32_t> codepoints = normalize_to_codepoints(large_bytes);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        1:  486:        auto end = std::chrono::high_resolution_clock::now();
+call    0 returned 100%
+        -:  487:        
+        1:  488:        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0% (throw)
+        -:  489:        
+        -:  490:        // 确保处理时间合理（小于1秒）
+       1*:  491:        ASSERT_TRUE(duration.count() < 1000);
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+        -:  492:        
+        -:  493:        // 确保结果正确
+       1*:  494:        ASSERT_TRUE(codepoints.size() > 0);
+call    0 returned 100%
+branch  1 taken 0% (fallthrough)
+branch  2 taken 100%
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+call    9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed (throw)
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+call   18 never executed
+branch 19 never executed (fallthrough)
+branch 20 never executed (throw)
+call   21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed (throw)
+        -:  495:        
+        1:  496:        return true;
+        1:  497:    }
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 never executed
+call    4 never executed
+call    5 never executed
+        -:  498:};
+        -:  499:
+function main called 1 returned 100% blocks executed 48%
+        1:  500:int main() {
+        1:  501:    TestRunner runner;
+call    0 returned 100%
+        -:  502:    
+        -:  503:    // 添加所有测试用例
+        1:  504:    runner.addTest(std::make_unique<TestCJKRecognition>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  505:    runner.addTest(std::make_unique<TestASCIIProcessing>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  506:    runner.addTest(std::make_unique<TestUTF8Decoding>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  507:    runner.addTest(std::make_unique<TestTextNormalization>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  508:    runner.addTest(std::make_unique<TestHashFunction>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  509:    runner.addTest(std::make_unique<TestKGramSet>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  510:    runner.addTest(std::make_unique<TestJaccardSimilarity>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  511:    runner.addTest(std::make_unique<TestEndToEnd>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  512:    runner.addTest(std::make_unique<TestBoundaryConditions>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        1:  513:    runner.addTest(std::make_unique<TestPerformance>());
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+call    3 returned 100%
+call    4 returned 100%
+branch  5 taken 100% (fallthrough)
+branch  6 taken 0% (throw)
+call    7 returned 100%
+call    8 returned 100%
+call    9 never executed
+call   10 never executed
+        -:  514:    
+        -:  515:    // 运行所有测试
+        1:  516:    bool success = runner.runAll();
+call    0 returned 100%
+branch  1 taken 100% (fallthrough)
+branch  2 taken 0% (throw)
+        -:  517:    
+       1*:  518:    return success ? 0 : 1;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  519:}
+call    0 returned 100%
+call    1 never executed
